@@ -1,0 +1,161 @@
+<!-- <section class="page">
+  <div class="page-title">
+    <span class="eyebrow">Concierge Desk</span>
+    <h1>My <span class="gold-text">Bookings</span></h1>
+    <div class="divider"><span>◆</span></div>
+  </div>
+
+  <div class="tabs">
+    <button [class.on]="tab() === 'tours'" (click)="tab.set('tours')">Journeys ({{ tours().length }})</button>
+    <button [class.on]="tab() === 'rooms'" (click)="tab.set('rooms')">Suites ({{ rooms().length }})</button>
+  </div>
+
+  @if (error()) { <div class="notice bad">{{ error() }}</div> }
+  @if (loading()) { <p class="empty">Loading your reservations…</p> }
+
+  @if (!loading() && tab() === 'tours') {
+    <div class="table-wrap">
+      @if (tours().length) {
+        <table>
+          <thead>
+            <tr>
+              <th>Ref</th><th>Guest</th><th>Contact</th><th>Visit</th>
+              <th>Group</th><th>Interests</th><th>Via</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (t of tours(); track t.id) {
+              <tr>
+                <td class="ref">#{{ t.id }}</td>
+                <td>{{ t.firstName }} {{ t.lastName }}</td>
+                <td>{{ t.email }}<br /><small>{{ t.phone }}</small></td>
+                <td>{{ t.visitDate | date: 'dd MMM yyyy' }}</td>
+                <td>{{ t.groupSize }}</td>
+                <td>{{ t.interestedTours }}</td>
+                <td>{{ t.contactMethod }}</td>
+                <td><button class="del" (click)="removeTour(t.id)">Cancel</button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <p class="empty">No journeys booked yet.</p>
+      }
+    </div>
+  }
+
+  @if (!loading() && tab() === 'rooms') {
+    <div class="table-wrap">
+      @if (rooms().length) {
+        <table>
+          <thead>
+            <tr>
+              <th>Ref</th><th>Guest</th><th>Contact</th><th>Check-in</th>
+              <th>Check-out</th><th>Guests</th><th>Requests</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of rooms(); track r.id) {
+              <tr>
+                <td class="ref">#{{ r.id }}</td>
+                <td>{{ r.guestName }}</td>
+                <td>{{ r.email }}<br /><small>{{ r.phone }}</small></td>
+                <td>{{ r.checkIn | date: 'dd MMM yyyy' }}</td>
+                <td>{{ r.checkOut | date: 'dd MMM yyyy' }}</td>
+                <td>{{ r.adults }} adults, {{ r.children }} children</td>
+                <td>{{ r.specialRequests || '—' }}</td>
+                <td><button class="del" (click)="removeRoom(r.id)">Cancel</button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <p class="empty">No suites reserved yet.</p>
+      }
+    </div>
+  }
+</section> -->
+
+<section class="page">
+  <div class="page-title">
+    <span class="eyebrow">Concierge Desk</span>
+    <h1>My <span class="gold-text">Bookings</span></h1>
+    <div class="divider"><span>◆</span></div>
+  </div>
+
+  <div class="tabs">
+    <button [class.on]="tab() === 'tours'" (click)="tab.set('tours')">Journeys ({{ tours().length }})</button>
+    <button [class.on]="tab() === 'rooms'" (click)="tab.set('rooms')">Suites ({{ rooms().length }})</button>
+  </div>
+
+  @if (error()) { <div class="notice bad">{{ error() }}</div> }
+  @if (loading()) { <p class="empty">Loading your reservations…</p> }
+
+  @if (!loading() && tab() === 'tours') {
+    <div class="table-wrap">
+      @if (tours().length) {
+        <table>
+          <thead>
+            <tr>
+              <th>Ref</th><th>Guest</th><th>Contact</th><th>Visit</th>
+              <th>Group</th><th>Interests</th><th>Via</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (t of tours(); track t.id) {
+              <tr>
+                <td class="ref">#{{ t.id }}</td>
+                <td>{{ t.firstName }} {{ t.lastName }}</td>
+                <td>{{ t.email }}<br /><small>{{ t.phone }}</small></td>
+                <td>{{ t.visitDate | date: 'dd MMM yyyy' }}</td>
+                <td>{{ t.groupSize }}</td>
+                <td>{{ t.interestedTours }}</td>
+                <td>{{ t.contactMethod }}</td>
+                <td class="acts">
+                  <a class="edit" [routerLink]="['/tour-booking', t.id]">Update</a>
+                  <button class="del" (click)="removeTour(t.id)">Cancel</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <p class="empty">No journeys booked yet.</p>
+      }
+    </div>
+  }
+
+  @if (!loading() && tab() === 'rooms') {
+    <div class="table-wrap">
+      @if (rooms().length) {
+        <table>
+          <thead>
+            <tr>
+              <th>Ref</th><th>Guest</th><th>Contact</th><th>Check-in</th>
+              <th>Check-out</th><th>Guests</th><th>Requests</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of rooms(); track r.id) {
+              <tr>
+                <td class="ref">#{{ r.id }}</td>
+                <td>{{ r.guestName }}</td>
+                <td>{{ r.email }}<br /><small>{{ r.phone }}</small></td>
+                <td>{{ r.checkIn | date: 'dd MMM yyyy' }}</td>
+                <td>{{ r.checkOut | date: 'dd MMM yyyy' }}</td>
+                <td>{{ r.adults }} adults, {{ r.children }} children</td>
+                <td>{{ r.specialRequests || '—' }}</td>
+                <td class="acts">
+                  <a class="edit" [routerLink]="['/room-reservation', r.id]">Update</a>
+                  <button class="del" (click)="removeRoom(r.id)">Cancel</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <p class="empty">No suites reserved yet.</p>
+      }
+    </div>
+  }
+</section>

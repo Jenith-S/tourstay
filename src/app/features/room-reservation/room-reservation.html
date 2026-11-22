@@ -1,0 +1,79 @@
+<section class="suite">
+  <aside class="aside">
+    <span class="eyebrow">Chapter II</span>
+    <h1>Room <span class="gold-text">Reservation</span></h1>
+    <div class="divider left"><span>◆</span></div>
+    <p>Reserve a suite in minutes. Share your preferences and we will prepare the room for your arrival.</p>
+    <ul class="perks">
+      <li>Spacious suites with refined interiors</li>
+      <li>Dedicated butler &amp; 24-hour concierge</li>
+      <li>Breakfast and spa access included</li>
+    </ul>
+  </aside>
+
+  <form class="panel" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="field full">
+      <label>Please Enter Your Name</label>
+      <input formControlName="guestName" placeholder="John Doe" />
+      @if (invalid('guestName')) { <small class="err">Name is required.</small> }
+    </div>
+
+    <div class="field">
+      <label>Email Address</label>
+      <input type="email" formControlName="email" placeholder="you@example.com" />
+      @if (invalid('email')) { <small class="err">Please enter a valid email address.</small> }
+    </div>
+
+    <div class="field">
+      <label>Telephone / Mobile</label>
+      <input formControlName="phone" placeholder="Telephone / Mobile Number" />
+      @if (invalid('phone')) { <small class="err">Please enter a valid phone number.</small> }
+    </div>
+
+    <div class="field">
+      <label>Number of Adults</label>
+      <input type="number" min="1" formControlName="adults" />
+      @if (invalid('adults')) { <small class="err">Please enter a valid number.</small> }
+    </div>
+
+    <div class="field">
+      <label>Number of Children</label>
+      <input type="number" min="0" formControlName="children" />
+      @if (invalid('children')) { <small class="err">Please enter a valid number.</small> }
+    </div>
+
+    <div class="field">
+      <label>Check-in Date</label>
+      <input type="date" formControlName="checkIn" [min]="today" />
+      @if (invalid('checkIn')) { <small class="err">Please choose a date.</small> }
+    </div>
+
+    <div class="field">
+      <label>Check-out Date</label>
+      <input type="date" formControlName="checkOut" [min]="form.value.checkIn || today" />
+      @if (form.errors?.['range'] && form.get('checkOut')?.touched) {
+        <small class="err">Check-out must be after check-in.</small>
+      }
+    </div>
+
+    @if (nights > 0) {
+      <div class="full">
+        <span class="stay-badge">◆ {{ nights }} {{ nights === 1 ? 'night' : 'nights' }} of indulgence</span>
+      </div>
+    }
+
+    <div class="field full">
+      <label>Please answer these questions for a pleasant stay</label>
+      <textarea rows="3" formControlName="specialRequests"
+        placeholder="Special requests, dietary needs, late arrival…"></textarea>
+    </div>
+
+    <div class="full actions">
+      <button class="btn" type="submit" [disabled]="sending()">
+        {{ sending() ? 'Reserving…' : 'Reserve My Suite' }}
+      </button>
+      @if (message()) { <div class="notice ok">{{ message() }}</div> }
+      @if (error()) { <div class="notice bad">{{ error() }}</div> }
+    </div>
+  </form>
+</section>

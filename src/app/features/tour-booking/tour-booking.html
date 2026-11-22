@@ -1,0 +1,79 @@
+<section class="suite">
+  <aside class="aside">
+    <span class="eyebrow">Chapter I</span>
+    <h1>Tour <span class="gold-text">Booking</span></h1>
+    <div class="divider left"><span>◆</span></div>
+    <p>Tell us when you wish to travel and what stirs your curiosity. We will design the rest.</p>
+    <ul class="perks">
+      <li>Private guides &amp; chauffeured transfers</li>
+      <li>Curated heritage and cultural experiences</li>
+      <li>Personal confirmation from our concierge</li>
+    </ul>
+  </aside>
+
+  <form class="panel" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="field">
+      <label>First Name</label>
+      <input formControlName="firstName" placeholder="First" />
+      @if (invalid('firstName')) { <small class="err">First name is required.</small> }
+    </div>
+
+    <div class="field">
+      <label>Last Name</label>
+      <input formControlName="lastName" placeholder="Last" />
+      @if (invalid('lastName')) { <small class="err">Last name is required.</small> }
+    </div>
+
+    <div class="field">
+      <label>Email</label>
+      <input type="email" formControlName="email" placeholder="you@example.com" />
+      @if (invalid('email')) { <small class="err">Please enter a valid email address.</small> }
+    </div>
+
+    <div class="field">
+      <label>Phone</label>
+      <input formControlName="phone" placeholder="### ### ####" />
+      @if (invalid('phone')) { <small class="err">Please enter a valid phone number.</small> }
+    </div>
+
+    <div class="field">
+      <label>When are you planning to visit?</label>
+      <input type="date" formControlName="visitDate" [min]="today" />
+      @if (invalid('visitDate')) { <small class="err">Please choose a date.</small> }
+    </div>
+
+    <div class="field">
+      <label>How many people are in your group?</label>
+      <input type="number" min="1" formControlName="groupSize" />
+      @if (invalid('groupSize')) { <small class="err">At least one guest is required.</small> }
+    </div>
+
+    <div class="field full">
+      <label>Which tours or events are you most interested in?</label>
+      <input formControlName="interestedTours" placeholder="e.g. Temple trail, Backwater cruise" />
+      @if (invalid('interestedTours')) { <small class="err">This field is required.</small> }
+    </div>
+
+    <div class="field full">
+      <label>What is the best way to contact you?</label>
+      <div class="chips">
+        <label class="chip">
+          <input type="radio" value="Phone" formControlName="contactMethod" />
+          <span>Phone</span>
+        </label>
+        <label class="chip">
+          <input type="radio" value="Email" formControlName="contactMethod" />
+          <span>Email</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="full actions">
+      <button class="btn" type="submit" [disabled]="sending()">
+        {{ sending() ? 'Confirming…' : 'Confirm My Journey' }}
+      </button>
+      @if (message()) { <div class="notice ok">{{ message() }}</div> }
+      @if (error()) { <div class="notice bad">{{ error() }}</div> }
+    </div>
+  </form>
+</section>
